@@ -1,4 +1,4 @@
-function toDocumentRecord(file, owner) {
+function toDocumentRecord(file, owner, uploadedAt) {
   return {
     id: file.filename,
     originalName: file.originalname,
@@ -6,7 +6,7 @@ function toDocumentRecord(file, owner) {
     storedPath: file.path,
     mimeType: file.mimetype,
     size: file.size,
-    uploadedAt: new Date().toISOString(),
+    uploadedAt,
     owner,
   };
 }

@@ -2,34 +2,52 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const documentsMapper = require('../src/services/documents.mapper');
 
-test('mapeia arquivo recebido para registro e projeta apenas campos públicos', () => {
-  const file = {
-    filename: 'arquivo-id',
-    originalname: 'relatorio.txt',
-    path: '/storage/arquivo-id',
-    mimetype: 'text/plain',
-    size: 12,
-  };
+test('maps an uploaded file to the stored document shape', () => {
+  const uploadedAt = '2026-10-28T19:00:00.000Z';
 
-  const record = documentsMapper.toDocumentRecord(file, 'maria');
+  assert.deepEqual(
+    documentsMapper.toDocumentRecord(
+      {
+        filename: 'arquivo-id',
+        originalname: 'relatorio.txt',
+        path: '/storage/arquivo-id',
+        mimetype: 'text/plain',
+        size: 12,
+      },
+      'maria',
+      uploadedAt,
+    ),
+    {
+      id: 'arquivo-id',
+      originalName: 'relatorio.txt',
+      storedName: 'arquivo-id',
+      storedPath: '/storage/arquivo-id',
+      mimeType: 'text/plain',
+      size: 12,
+      uploadedAt,
+      owner: 'maria',
+    },
+  );
+});
 
-  assert.deepEqual(record, {
+test('maps a stored document to its public shape without storage details', () => {
+  const document = {
     id: 'arquivo-id',
     originalName: 'relatorio.txt',
     storedName: 'arquivo-id',
     storedPath: '/storage/arquivo-id',
     mimeType: 'text/plain',
     size: 12,
-    uploadedAt: record.uploadedAt,
+    uploadedAt: '2026-10-28T19:00:00.000Z',
     owner: 'maria',
-  });
-  assert.equal(Number.isNaN(Date.parse(record.uploadedAt)), false);
-  assert.deepEqual(documentsMapper.toPublicDocument(record), {
+  };
+
+  assert.deepEqual(documentsMapper.toPublicDocument(document), {
     id: 'arquivo-id',
     originalName: 'relatorio.txt',
     mimeType: 'text/plain',
     size: 12,
-    uploadedAt: record.uploadedAt,
+    uploadedAt: '2026-10-28T19:00:00.000Z',
     owner: 'maria',
   });
 });
