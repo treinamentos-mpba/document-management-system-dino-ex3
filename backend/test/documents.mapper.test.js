@@ -8,9 +8,9 @@ test('maps an uploaded file to the stored document shape', () => {
   assert.deepEqual(
     documentsMapper.toDocumentRecord(
       {
-        filename: 'stored-id',
+        filename: 'arquivo-id',
         originalname: 'relatorio.txt',
-        path: '/storage/stored-id',
+        path: '/storage/arquivo-id',
         mimetype: 'text/plain',
         size: 12,
       },
@@ -18,10 +18,10 @@ test('maps an uploaded file to the stored document shape', () => {
       uploadedAt,
     ),
     {
-      id: 'stored-id',
+      id: 'arquivo-id',
       originalName: 'relatorio.txt',
-      storedName: 'stored-id',
-      storedPath: '/storage/stored-id',
+      storedName: 'arquivo-id',
+      storedPath: '/storage/arquivo-id',
       mimeType: 'text/plain',
       size: 12,
       uploadedAt,
@@ -32,10 +32,10 @@ test('maps an uploaded file to the stored document shape', () => {
 
 test('maps a stored document to its public shape without storage details', () => {
   const document = {
-    id: 'stored-id',
+    id: 'arquivo-id',
     originalName: 'relatorio.txt',
-    storedName: 'stored-id',
-    storedPath: '/storage/stored-id',
+    storedName: 'arquivo-id',
+    storedPath: '/storage/arquivo-id',
     mimeType: 'text/plain',
     size: 12,
     uploadedAt: '2026-10-28T19:00:00.000Z',
@@ -43,7 +43,7 @@ test('maps a stored document to its public shape without storage details', () =>
   };
 
   assert.deepEqual(documentsMapper.toPublicDocument(document), {
-    id: 'stored-id',
+    id: 'arquivo-id',
     originalName: 'relatorio.txt',
     mimeType: 'text/plain',
     size: 12,
